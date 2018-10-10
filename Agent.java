@@ -5,12 +5,10 @@ import java.util.Random;
 public class Agent {
 	double Bias;
 	double Commitment;
-	double Openness; 
 	
-	public Agent(double e, double c, double o) {
-		Bias = e;
+	public Agent(double b, double c) {
+		Bias = b;
 		Commitment = c;
-		Openness = o;
 	}
 
 	//Return the Agent's Bias value
@@ -33,22 +31,13 @@ public class Agent {
 		return;
 	}
 	
-	//Return the Agent's Openness value
-	public double getOpenness(){
-		return Openness;
-	}
-	//Change the Agent's Openness value to given variable
-	public void setOpenness(double o){
-		Openness = o;
-		return;
-	}
+
 	
 	//Returns a list of all the Agent's variables
 	public ArrayList<String> getAgent(){
 		ArrayList<String> components = new ArrayList<>();
 		components.add("Expr: " + Bias);
 		components.add("Comm: " + Commitment);
-		components.add("Open: " + Openness);
 		
 		return components;
 	}
