@@ -33,3 +33,13 @@ Interactions are the types of scenarios that can take place when two agents expr
 | Neutral vs. Good | 
 | Neutral vs. Evil | 
 | Neutral vs Neutral |
+```
+interact(Agent1, Agent2):
+		If Agent1’s expression equals Agent2’s expression:
+			Commitment rises for both agents
+		Else:
+			If a random number is smaller than Agent1/Agent2’s commitment openness:
+				Move the corresponding commitment down
+			Else:
+				Move the corresponding commitment up
+```
