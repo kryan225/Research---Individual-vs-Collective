@@ -33,6 +33,16 @@ Interactions are the types of scenarios that can take place when two agents expr
 | Neutral vs. Good | 
 | Neutral vs. Evil | 
 | Neutral vs Neutral |
+
+| Affective Response to Partner Expressions | Description |
+| ------------- | ------------- |
+| Positive | The agent has taken the opposing "opinion" constructively. Commitment is shifted toward the opposing Agent's bias. This is supposed to resemble a person's willingness to have an open mind and take in all opinions |
+| Negative | The agent has taken the opposing "opinion" as offensive. Commitment is shifted away from the opposing Agent's bias. This is supposed to resemble a person "doubling down" on their opinion. |
+| Neutral | This happens when an agent's partner does not express anything, or the *express* function returns a 0. There is no change. |
+
+*Note:* If both agents express the same magnitude (-1 and -1, 1 and 1) they will automatically have a positive response
+
+*Note:* If both agents express opposing outcomes (-1 & 1, -1 & 0, 0 & 1) they will roll a fair dice, and when compared to each agent's commitment, the outcome will be determined
 ```
 interact(Agent1, Agent2):
 		If Agent1’s expression equals Agent2’s expression:
