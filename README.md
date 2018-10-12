@@ -6,19 +6,20 @@ Building a collective of agents where some portray a negative expression in rega
 ## Agents
 
 An agent is a representation of a person. We want to be able to have a population of people, or agents, that interact with each other. Each agent has two features: an expression bias, and a commitment bias. 
-##### Expression
-The expression parameter on agents acts as how often or likely an agent is to express an undesirable trait. For example, if an agent has an expression of .25, that agent will have a 25% chance of expressing the undesirable characteristic on every iteration until the expression changes. 
+##### Expression Bias
+The expression parameter on agents acts as how often or likely an agent is to express an undesirable trait. The bias is treated as a point on a scale from 0-1. If A fair dice is below the bias an agent will express a negative trait, while if it is above the bias it will express a positive trait. Bias is changed according to the equation:
 ```
-Expression(Agent):
-		If a random number is less than the Agent’s expression:
-			Have the agent express
-		Else:
-			Dont express
+Bias = Bias - [(1-commitment)/10](Expression)(Quality of interaction)
 ```
+Where Expression is -1,0,1 and quality is either -1,1
 
 
 ##### Commitment
-Commitment is a parameter on agents that portrays how committed an agent is to their expressive stance. *Commitment controls how much an agent is affected from a negative interaction.*
+Commitment is a parameter on agents that portrays how committed an agent is to their expressive stance. *Commitment controls how much an agent is affected from a negative interaction.* Commitment is updated according the the equation:
+```
+Commitment = Commitment - [(1-Commitment)/10](quality of interaction)
+```
+Where quality is either -1,1
 
 ## Interactions
 
