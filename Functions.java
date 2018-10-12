@@ -27,6 +27,26 @@ public class Functions {
 			}
 		}
 		
+		
+		//Updates an agent's bias after it has an interaction
+		//Agent a is the agent to be updated, expression is the expression that the agent's partner expressed
+		//quality is the quality of the interaction ex: positive: 1, negative: -1,
+		//		for neutral expression: expression should be 0, quality has no effect
+		public static void updateAgent(Agent a, int expression, int quality){
+			int exp = expression * quality;//if it is a negative interaction, the -1 value for quality will switch directions of the bias shift
+			
+			double bias = a.getBias();
+			double comm = a.getCommitment();
+			
+			double newBias = bias - ( ( (1-comm) /10) * exp);
+			//double newComm = comm + ( ( ((1/2) - (bias))/10 ) * exp);
+			double newComm = comm - ( ( (1-comm) /10) * quality);
+			a.setBias(newBias);
+			a.setCommitment(newComm);
+			
+			return;
+		}
+		
 		//Interaction function between 2 agents
 		//Should change commitment based off their bias and openness values
 		public static void interact(Agent a1, Agent a2){
@@ -35,25 +55,23 @@ public class Functions {
 			
 			//Both agents agree - Move commitment up
 			if(Math.round(a1.getBias()) == Math.round(a2.getBias())){
-				a1.setCommitment(a1.getCommitment() + (0.05 * express2));
-				a2.setCommitment(a2.getCommitment() + (0.05 * express1));
+				//a1.setCommitment(a1.getCommitment() + (0.05 * express2));
+				//a2.setCommitment(a2.getCommitment() + (0.05 * express1));
+				updateAgent(a1, express2, -1);
+				updateAgent(a2, express1, -1);
 				
 			}else{
 				//Agents don't agree - adjust commitment based off openness
 				double threshold = Math.random();
 				if(threshold < a1.getCommitment()){//agents dont agree and A1 has a bad interaction: reinforce bias + commitment
-					a1.setCommitment(a1.getCommitment() + (express2 * .05 * a1.getCommitment()));
-					a1.setBias(a1.getBias() + (express2 * .05 * a1.getCommitment()));
+					updateAgent(a1, express2, -1);
 				}else{//agents dont agree but A1 has good interaction: decrease bias + commitment
-					a1.setCommitment(a1.getCommitment() - (express2 * .05 * a1.getCommitment()));
-					a1.setBias(a1.getBias() - (express2 * .05 * a1.getCommitment()));
+					updateAgent(a1, express2, 1);
 				}
 				if(threshold < a2.getCommitment()){//agents dont agree and A2 has a bad interaciton: reinforce bias + commitment
-					a2.setCommitment(a2.getCommitment() + (express1 * .05 * a2.getCommitment()));
-					a2.setBias(a2.getBias() + (express1 * .05 * a2.getCommitment()));
+					updateAgent(a2, express1, -1);
 				}else{//agents dont agree but A2 has a good interaction: decrease bias + commitment
-					a2.setCommitment(a2.getCommitment() - (express1 * .05 * a2.getCommitment()));
-					a2.setBias(a2.getBias() - (express1 * .05 * a2.getCommitment()));
+					updateAgent(a2, express1, 1);
 				}
 				
 				
@@ -136,11 +154,9 @@ public class Functions {
 		
 		public static void main(String []args) {
 
-			ArrayList<Agent> pop = newPop(100, .2);
-			//for(int i = 0; i < 2; i++){
-				pop = evolve(pop);
-			//}
-			System.out.println(countChange(pop, 2));
+			Agent a = new Agent(.8,.7);
+			updateAgent(a, 0, 1);
+			System.out.println(a.getAgent());
 			
 		}
 	
