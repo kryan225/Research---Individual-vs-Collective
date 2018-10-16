@@ -17,9 +17,9 @@ Where Expression is -1,0,1 and quality is either -1,1
 ##### Commitment
 Commitment is a parameter on agents that portrays how committed an agent is to their expressive stance. *Commitment controls how much an agent is affected from a negative interaction.* Commitment is updated according the the equation:
 ```
-Commitment = Commitment - [(1-Commitment)/10](Partner Expression)(My Expression)(quality of interaction)
+Commitment = Commitment + [(1-Commitment)/10](Partner Expression)(My Expression)(quality of interaction)
 ```
-Where quality is either -1,1
+Where quality is either -1,1 and Partner/My Expression is either -1,0,1
 
 ## Expressions
 
@@ -68,3 +68,26 @@ interact(Agent1, Agent2):
 			Else:
 				Move the corresponding commitment up
 ```
+
+## Updates
+
+The purpose of the ```updateAgent``` function is to update an agent's bias and commitment bassed off it's interaction with a partner.
+The update function takes in 5 parameters:
+
+| Parameter Name | Description |
+| ------------- | --------------- | 
+| ```Agent a``` | The agent that will be updated |
+| ```int partnerExpress``` | The expression that the agent's partner expressed. This is the expression that ```Agent a``` is reacting to. Can be -1 (evil), 0 (no expression/neutral), 1 (good) | 
+| ```int myExpress``` | The expression that the ```Agent a``` expressed for that round. Can be -1 (evil), 0 (no expression/neutral), 1 (good). |
+| ```int quality``` | This is the quality of the interaction with the partner agent. This will decide whether ```Agent a``` reacts positively or negatively to its partner. Can be -1 (negative interaction), 1 (positive interaction) |
+| ```int learningRate``` | This is rate at which the bias and commitment for ```Agent a``` is changed. The lower the learning rate the more the bias and commitment are changed per round. Our default value for learning rate is 10. | 
+
+```Agent a```'s bias is changed according to the following formula:
+```
+Bias = Bias - [(1-commitment)/10](Partner Expression)(Quality of interaction)
+```
+and commitment is changed according to: 
+```
+Commitment = Commitment + [(1-Commitment)/10](Partner Expression)(My Expression)(quality of interaction)
+```
+
