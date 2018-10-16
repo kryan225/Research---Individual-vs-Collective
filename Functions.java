@@ -56,6 +56,12 @@ public class Functions {
 			double newBias = bias - ( ( neumerator / learningRate) * exp);
 			double newComm = comm + ( ( neumerator / learningRate) * myExpress * exp);
 			
+			
+			if(newBias < 0){
+				newBias = .001;
+			}else if(newBias > 1){
+				newBias = .999;
+			}
 			//update the bias and commitments
 			a.setBias(newBias);
 			a.setCommitment(newComm);
@@ -169,15 +175,15 @@ public class Functions {
 		
 		public static void main(String []args) {
 
-			Agent a = new Agent(.7,.5);
-			Agent a1 = new Agent(.1, .5);
+			Agent a = new Agent(.5,.0);
+			Agent a1 = new Agent(.5, .0);
 			//UpdateAgent(agent, partnerExpr, MyExpr, Qual, LR)
-			for(int i = 0; i < 10; i++){
+			for(int i = 0; i < 100; i++){
 				interact(a, a1);
-				System.out.println(a.getAgent());
-				System.out.println(a1.getAgent());
+				
+				//System.out.println(a1.getAgent());
 			}
-			
+			System.out.println(a1.agentReport());
 			
 		}
 	

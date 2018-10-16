@@ -5,10 +5,14 @@ import java.util.Random;
 public class Agent {
 	double Bias;
 	double Commitment;
+	double oBias;
+	double oComm;
 	
 	public Agent(double b, double c) {
 		Bias = b;
 		Commitment = c;
+		oBias = b;
+		oComm = c;
 	}
 
 	//Return the Agent's Bias value
@@ -33,13 +37,29 @@ public class Agent {
 	
 
 	
-	//Returns a list of all the Agent's variables
+	//Returns a list of all the Agent's active variables
 	public ArrayList<String> getAgent(){
 		ArrayList<String> components = new ArrayList<>();
 		components.add("Expr: " + Bias);
 		components.add("Comm: " + Commitment);
 		
 		return components;
+	}
+	
+	public ArrayList<String> agentReport(){
+		ArrayList<String> report = new ArrayList<>();
+		if(Bias < oBias){
+			report.add("The Bias has DROPPED from: " + oBias + " To: " + Bias + "\nA change of: " + (oBias - Bias));
+		}else{
+			report.add("The Bias has RISEN from: " + oBias + " To: " + Bias + "\nA change of: " + (Bias - oBias));
+		}
+		if(Commitment < oComm){
+			report.add("\nThe Commitment has DROPPED from: " + oComm + " To: " + Commitment + "\nA change of: " + (oComm - Commitment));
+		}else{
+			report.add("\nThe Commitment has RISEN from: " + oComm + " To: " + Commitment + "\nA change of: " + (Commitment - oComm));
+		}
+		
+		return report;
 	}
 	
 	
