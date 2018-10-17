@@ -56,6 +56,12 @@ public class Functions {
 			double newBias = bias - ( ( neumerator / learningRate) * exp);
 			double newComm = comm + ( ( neumerator / learningRate) * myExpress * exp);
 			
+			
+			if(newBias < 0){
+				newBias = .001;
+			}else if(newBias > 1){
+				newBias = .999;
+			}
 			//update the bias and commitments
 			a.setBias(newBias);
 			a.setCommitment(newComm);
@@ -96,88 +102,17 @@ public class Functions {
 		}
 		
 		
-		//iterates through every agent in a population and applies an interaction between two random agents
-		//returns an updated list of agents
-		public static ArrayList<Agent> evolve(ArrayList<Agent> pop){
-			ArrayList<Agent> nextgen = new ArrayList<Agent>();
-			Collections.shuffle(pop);
-			while(pop.size() > 0){
-				Agent ag1 = pop.remove(0);
-				Agent ag2 = pop.remove(0);
-				interact(ag1, ag2);
-				nextgen.add(ag1);
-				nextgen.add(ag2);
-			}
-			
-			return nextgen;		
-		}
-		
-		//Creates an n sized population with a percentage percent "evil"
-		//n: total population size, percentage: percentage evil
-		//***currently only creates agents with a commitment of 90%
-		public static ArrayList<Agent> newPop(int n, double percentage){
-			ArrayList<Agent> loa = new ArrayList<>();
-			int evils = (int) Math.round(n* percentage);
-			int goods = n - evils;
-			
-			for(int i=0; i < evils; i++){
-				Agent nAgent = new Agent(.9, .9);
-				loa.add(nAgent);
-			}
-			for(int x=0; x < goods; x++){
-				Agent nAgent = new Agent(.2, .9);
-				loa.add(nAgent);
-			}
-			return loa;
-			
-		}
-		
-		//returns percentage of how many agents expressed
-		//HARD CODED FOR COMMITMENT=0.9
-		public static double countChange(ArrayList<Agent> pop, int size){
-			String ans = "";
-			
-			ArrayList<Agent> evs = evolve(pop);
-			int goodUP = 0;
-			int goodDOWN = 0;
-			int badUP = 0;
-			int badDOWN = 0;
-			for(Agent a : evs){
-				if(a.getBias() > .5){
-					if(a.getCommitment() > .9){
-						badUP++;
-					}else if(a.getCommitment() < .9){
-						badDOWN++;
-					}
-				}else{
-					if(a.getCommitment() > .9){
-						goodUP++;
-					}else if(a.getCommitment() < .9){
-						goodDOWN++;
-					}
-				}
-			}
-			//ans = "percentage: " + percentage + '\n' + "Good up: " + goodUP + ", Good down: " + goodDOWN + ", Bad up: " + badUP + ", Bad down: " + badDOWN + '\n' + "Total: " + (goodUP + goodDOWN + badUP + badDOWN);
-			//return ans;
-			System.out.println("Total commitment changes UP: " + (goodUP + badUP));
-			System.out.println("Total commitment changes DOWN: " + (goodDOWN + badDOWN));
-			double ret = (goodUP + goodDOWN + badUP + badDOWN);///size;
-			//ret = ret/100;
-			return ret;
-		}
-		
-		
 		public static void main(String []args) {
 
-			Agent a = new Agent(.7,.5);
-			Agent a1 = new Agent(.1, .5);
+			Agent a = new Agent(.5,.0);
+			Agent a1 = new Agent(.5, .0);
 			//UpdateAgent(agent, partnerExpr, MyExpr, Qual, LR)
-			for(int i = 0; i < 10; i++){
+			for(int i = 0; i < 100; i++){
 				interact(a, a1);
-				System.out.println(a.getAgent());
-				System.out.println(a1.getAgent());
+				
+				//System.out.println(a1.getAgent());
 			}
-			
+			System.out.println(a1.agentReport());
 			
 		}
 	
