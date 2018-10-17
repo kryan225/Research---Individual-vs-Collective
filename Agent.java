@@ -35,7 +35,15 @@ public class Agent {
 		return;
 	}
 	
-
+	//Return the original Bias
+	public double origionalBias(){
+		return oBias;
+	}
+	
+	//Return the original Commitment
+	public double origionalComm(){
+		return oComm;
+	}
 	
 	//Returns a list of all the Agent's active variables
 	public ArrayList<String> getAgent(){
@@ -46,6 +54,8 @@ public class Agent {
 		return components;
 	}
 	
+	
+	//returns a report of how the agent changed from its inception
 	public ArrayList<String> agentReport(){
 		ArrayList<String> report = new ArrayList<>();
 		if(Bias < oBias){
