@@ -69,9 +69,21 @@ public class Functions {
 			return;
 		}
 		
+		public static int countExpressions(int e1, int e2){
+			int ans = 0;
+			if(e1 != 0){
+				ans++;
+			}
+			if(e2 != 0){
+				ans++;
+			}
+			
+			return ans;
+		}
+		
 		//Interaction function between 2 agents
 		//Should change commitment based off their bias and openness values
-		public static void interact(Agent a1, Agent a2){
+		public static int interact(Agent a1, Agent a2){
 			int express1 = express(a1);
 			int express2 = express(a2);
 			
@@ -98,7 +110,7 @@ public class Functions {
 				
 			}
 			
-			return;
+			return countExpressions(express1, express2);
 		}
 		
 		
