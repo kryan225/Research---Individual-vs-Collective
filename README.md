@@ -7,33 +7,14 @@ Building a collective of agents where some portray a negative expression in rega
 
 An agent is a representation of a person. We want to be able to have a population of people, or agents, that interact with each other. Each agent has two features: an expression bias, and a commitment bias. 
 ##### Expression Bias
-The expression parameter on agents acts as how often or likely an agent is to express an undesirable trait. The bias is treated as a point on a scale from 0-1. If A fair dice is below the bias an agent will express a negative trait, while if it is above the bias it will express a positive trait. Bias is changed according to the equation:
-```
-Bias = Bias - [(1-commitment)/10](Partner Expression)(Quality of interaction)
-```
-Where Expression is -1,0,1 and quality is either -1,1
+The expression parameter on agents acts as how often or likely an agent is to express an undesirable trait. The bias is treated as a point on a scale from 0-1. If A fair dice is below the bias an agent will express a negative trait, while if it is above the bias it will express a positive trait.
 
 
 ##### Commitment
-Commitment is a parameter on agents that portrays how committed an agent is to their expressive stance. *Commitment controls how much an agent is affected from a negative interaction.* Commitment is updated according the the equation:
-```
-Commitment = Commitment + [(1-Commitment)/10](Partner Expression)(My Expression)(quality of interaction)
-```
-Where quality is either -1,1 and Partner/My Expression is either -1,0,1
+Commitment is a parameter on agents that portrays how committed an agent is to their expressive stance. *Commitment controls how much an agent is affected from a negative interaction.* 
 
-## Expressions
 
-Expressions are based off each agent's bias. The first thing that is done is a neutral zone is calculated for the agent. The neutral zone is calculated by the following formula:
-```
-Right border of neutral zone: ((1-Commitment)/3) * (1-Bias)
-Left border of neutral zone: ((1-Commitment)/3) * (Bias)
-```
-This ensures a neutral zone takes a percentage, based off the commitment, from either side of the bias. The less commited an agent, the larger the neutral zone.
 
-After this, think of a scale from zero to one with a neutral zone surrounding the bias on the scale. A fair dice is rolled and based off where the value of the dice lands on the scale, an appropriate trait is expressed:
-	Less than the neutral zone: -1 (Evil trait)
-	In the neutral zone: 0 (No expression)
-	Greater than the neutral zone: 1 (Good trait)
 
 ## Interactions
 
@@ -68,6 +49,20 @@ interact(Agent1, Agent2):
 			Else:
 				Move the corresponding commitment up
 ```
+
+## Expressions
+
+Expressions are based off each agent's bias. The first thing that is done is a neutral zone is calculated for the agent. The neutral zone is calculated by the following formula:
+```
+Right border of neutral zone: ((1-Commitment)/3) * (1-Bias)
+Left border of neutral zone: ((1-Commitment)/3) * (Bias)
+```
+This ensures a neutral zone takes a percentage, based off the commitment, from either side of the bias. The less commited an agent, the larger the neutral zone.
+
+After this, think of a scale from zero to one with a neutral zone surrounding the bias on the scale. A fair dice is rolled and based off where the value of the dice lands on the scale, an appropriate trait is expressed:
+	Less than the neutral zone: -1 (Evil trait)
+	In the neutral zone: 0 (No expression)
+	Greater than the neutral zone: 1 (Good trait)
 
 ## Updates
 
