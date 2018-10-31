@@ -7,12 +7,16 @@ public class Agent {
 	double Commitment;
 	double oBias;
 	double oComm;
+	double lastBias;
+	double lastComm;
+	int numberCrossed;
 	
 	public Agent(double b, double c) {
 		Bias = b;
 		Commitment = c;
 		oBias = b;
 		oComm = c;
+		numberCrossed = 0;
 	}
 
 	//Return the Agent's Bias value
@@ -21,6 +25,7 @@ public class Agent {
 	}
 	//Change the Agents Bias value to given variable
 	public void setBias(double e){
+		lastBias = Bias;
 		Bias = e;
 		return;
 	}
@@ -31,6 +36,7 @@ public class Agent {
 	}
 	//Change the Agent's Commitment Value to given variable
 	public void setCommitment(double c){
+		lastComm = Commitment;
 		Commitment = c;
 		return;
 	}
@@ -43,6 +49,26 @@ public class Agent {
 	//Return the original Commitment
 	public double origionalComm(){
 		return oComm;
+	}
+	
+	//Return the last bias value
+	public double lastBias(){
+		return lastBias;
+	}
+	
+	//Return the last Commitment value
+	public double lastComm(){
+		return lastComm;
+	}
+	
+	//returns the number of times an agent's bias has crossed over .5
+	public int getCrossed(){
+		return numberCrossed;
+	}
+	
+	//increases the numberCrossed feature by 1
+	public void incCross(){
+		numberCrossed++;
 	}
 	
 	//Returns a list of all the Agent's active variables
@@ -71,6 +97,9 @@ public class Agent {
 		
 		return report;
 	}
+	
+	
+	
 	
 	
 }
