@@ -28,6 +28,23 @@ public class Functions {
 		}
 		
 		
+		//updates an Agent's "crossed" feature if its bias crosses the .5 threshold
+		public static void updateCross(Agent a1){
+			
+			if(a1.lastBias() > .5){//evil agent
+				if(a1.getBias() < .5){//crossed to good
+					a1.incCross();
+				}
+			}else{//good agent
+				if(a1.getBias() > .5){//crossed to evil
+					a1.incCross();
+				}
+			}
+			
+			return;
+		}
+		
+		
 		//Updates an agent's bias after it has an interaction
 		//Agent a is the agent to be updated, expression is the expression that the agent's partner expressed
 		//quality is the quality of the interaction ex: positive: 1, negative: -1,
@@ -57,6 +74,11 @@ public class Functions {
 			double newComm = comm + ( ( neumerator / learningRate) * myExpress * exp);
 			
 			
+			if(newComm < 0){
+				newComm = .001;
+			}else if(newComm > 1){
+				newComm = .999;
+			}
 			if(newBias < 0){
 				newBias = .001;
 			}else if(newBias > 1){
@@ -65,66 +87,102 @@ public class Functions {
 			//update the bias and commitments
 			a.setBias(newBias);
 			a.setCommitment(newComm);
-			
+			updateCross(a);
 			return;
 		}
 		
-		public static int countExpressions(int e1, int e2){
-			int ans = 0;
+		public static ArrayList<Integer> countExpressions(int e1, int e2){
+			ArrayList<Integer> report = new ArrayList<Integer>();
+			int totExp = 0;
+			int gExp = 0;
+			int eExp = 0;
 			if(e1 != 0){
-				ans++;
+				if(e1 > 0){
+					gExp++;
+				}else{
+					eExp++;
+				}
+				totExp++;
 			}
 			if(e2 != 0){
-				ans++;
+				if(e2 > 0){
+					gExp++;
+				}else{
+					eExp++;
+				}
+				totExp++;
 			}
 			
-			return ans;
+			report.add(totExp);//total expressions
+			report.add(gExp);//good expressions
+			report.add(eExp);//evil expressions
+			
+			return report;
 		}
 		
 		//Interaction function between 2 agents
 		//Should change commitment based off their bias and openness values
-		public static int interact(Agent a1, Agent a2){
+		public static ArrayList<Integer> interact(Agent a1, Agent a2){
+			ArrayList<Integer> ret = new ArrayList<Integer>();
 			int express1 = express(a1);
 			int express2 = express(a2);
+			ArrayList<Integer> expressReport = countExpressions(express1, express2);
+
+			int numExp = expressReport.get(0); //number of expressions
+			int harmonious = 0; //number of harmonious agents
+			int differing = 0;//# of differing agents
+			int posResponse = 0; //# of positive responses
+			int negResponse = 0; //# of negative responses
+			int gExpressions = expressReport.get(1);//number of good expressions
+			int eExpressions = expressReport.get(2);//number of evil expressions
+		
 			
 			//Both agents agree - Move commitment up
 			if(express1 == express2){
-
+				posResponse = posResponse + 2;
+				harmonious++;
 				updateAgent(a1, express2, express1, 1, 10);
 				updateAgent(a2, express1, express2, 1, 10);
 				
 			}else{
+				differing++;
 				//Agents don't agree - adjust commitment based off openness
 				double threshold = Math.random();
+				//System.out.println(threshold);
 				if(threshold < a1.getCommitment()){//agents dont agree and A1 has a bad interaction: reinforce bias + commitment
 					updateAgent(a1, express2, express1, -1, 10);
+					negResponse++;
 				}else{//agents dont agree but A1 has good interaction: decrease bias + commitment
 					updateAgent(a1, express2, express1, 1, 10);
+					posResponse++;
 				}
 				if(threshold < a2.getCommitment()){//agents dont agree and A2 has a bad interaction: reinforce bias + commitment
 					updateAgent(a2, express1, express2, -1, 10);
+					negResponse++;
 				}else{//agents dont agree but A2 has a good interaction: decrease bias + commitment
 					updateAgent(a2, express1, express2, 1, 10);
+					posResponse++;
 				}
 				
 				
 			}
-			
-			return countExpressions(express1, express2);
+			ret.add(numExp);
+			ret.add(harmonious);
+			ret.add(differing);
+			ret.add(posResponse);
+			ret.add(negResponse);
+			ret.add(gExpressions);
+			ret.add(eExpressions);
+			return ret;
 		}
 		
 		
 		public static void main(String []args) {
 
-			Agent a = new Agent(.5,.0);
-			Agent a1 = new Agent(.5, .0);
-			//UpdateAgent(agent, partnerExpr, MyExpr, Qual, LR)
-			for(int i = 0; i < 100; i++){
-				interact(a, a1);
-				
-				//System.out.println(a1.getAgent());
-			}
-			System.out.println(a1.agentReport());
+			Agent a = new Agent(.1,.9);
+			Agent a1 = new Agent(.9, .9);
+
+			System.out.println(4 % 2);
 			
 		}
 	

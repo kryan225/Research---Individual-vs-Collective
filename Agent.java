@@ -9,12 +9,14 @@ public class Agent {
 	double oComm;
 	double lastBias;
 	double lastComm;
+	int numberCrossed;
 	
 	public Agent(double b, double c) {
 		Bias = b;
 		Commitment = c;
 		oBias = b;
 		oComm = c;
+		numberCrossed = 0;
 	}
 
 	//Return the Agent's Bias value
@@ -59,6 +61,16 @@ public class Agent {
 		return lastComm;
 	}
 	
+	//returns the number of times an agent's bias has crossed over .5
+	public int getCrossed(){
+		return numberCrossed;
+	}
+	
+	//increases the numberCrossed feature by 1
+	public void incCross(){
+		numberCrossed++;
+	}
+	
 	//Returns a list of all the Agent's active variables
 	public ArrayList<String> getAgent(){
 		ArrayList<String> components = new ArrayList<>();
@@ -85,6 +97,9 @@ public class Agent {
 		
 		return report;
 	}
+	
+	
+	
 	
 	
 }
