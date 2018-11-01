@@ -39,7 +39,7 @@ Interactions are the types of scenarios that can take place when two agents expr
 
 *Note:* If both agents express the same magnitude (-1 and -1, 1 and 1) they will automatically have a positive response
 
-*Note:* If both agents express opposing outcomes (-1 & 1, -1 & 0, 0 & 1) they each generate a random number between 0 & 1, and when compared to each agent's commitment, the outcome will be determined
+*Note:* If both agents express opposing outcomes (-1 & 1, -1 & 0, 0 & 1) they each generate a random number between 0 & 1, and when compared to each agent's commitment, their separate responses to their neighbor will be determined
 ```
 interact(Agent1, Agent2):
 		If Agent1’s expression equals Agent2’s expression:
