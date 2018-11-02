@@ -33,7 +33,6 @@ After this, think of a scale from zero to one with a neutral zone surrounding th
 ## Interactions
 
 Interactions are the types of scenarios that can take place when two agents express to each other. For example, if there are two agents that are chosen to interact with each other, one can express an evil feature while the other can express a good feature. Below is a table of all expression scenarios.
-*Note: a neutral expression is when one agent expresses nothing, causing no change in the opposing agent*
 
 | Expression Scenarios  | 
 | ------------- | 
