@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -170,7 +172,7 @@ public class Experiments {
 		return changes;
 	}
 	
-	public static void runExperiment(int popSize, double percentEvil, int iterrations, double cmin, double cmax, boolean save) throws FileNotFoundException{
+	public static void runExperiment(int popSize, double percentEvil, int iterrations, double cmin, double cmax, boolean save, Result result) throws FileNotFoundException{
 		String details = "Pop: " + popSize + ", Percent Evil: " + percentEvil + ", iterrations: " + iterrations + " ---------";
 		ArrayList<Agent> pop = newPop(popSize, percentEvil, cmin, cmax);
 		ArrayList<Integer> evoReport = new ArrayList<Integer>();//will hold info passed from an evolution
@@ -217,6 +219,15 @@ public class Experiments {
 			sb.append("," + gExp);//number of good expressions
 			sb.append("," + eExp);//number of evil expressions
 			sb.append('\n');
+			
+			result.addExpressions(i,expressions);			
+			result.addHarmonious(i, harmonious);
+			result.addDiffering(i, differing);
+			result.addPosResponse(i, posResponse);
+			result.addNegResponse(i, negResponse);
+			result.addGoodExpressions(i, gExp);
+			result.addEvilExpressions(i, eExp);
+			
 		}
 		System.out.println(details);
 		if(save){
@@ -253,34 +264,34 @@ public class Experiments {
 		System.out.println();
 	}
 	
-	public static void batchExperiment() throws FileNotFoundException{
-		runExperiment(1000, .1, 100, .3, 1, true);
-		runExperiment(1000, .2, 100, .3, 1,true);
-		runExperiment(1000, .3, 100, .3, 1,true);
-		runExperiment(1000, .4, 100, .3, 1,true);
-		runExperiment(1000, .1, 100, .6, 1, true);
-		runExperiment(1000, .2, 100, .6, 1,true);
-		runExperiment(1000, .3, 100, .6, 1,true);
-		runExperiment(1000, .4, 100, .6, 1,true);
+	public static Result batchExperiment(Double evils, double cMin, double cMax) throws FileNotFoundException{
+		Result r = new Result();
+		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		
+		
+		return r;
+		
 	}
 	
 	
 	
 	public static void main(String []args) throws FileNotFoundException {
+		Result repo = batchExperiment(.3, .3, 1);
 		
-		runExperiment(1000, 0.3, 100, .3, 1, true);
-		//batchExperiment();
+		System.out.println(repo.expressions.get(0));
+		System.out.println(Result.avgValue(repo.expressions));
+		System.out.println(Result.avgValue(repo.differing));
+		System.out.println(Result.avgValue(repo.harmonious));
+		System.out.println(Result.avgValue(repo.evilExpressions));
+		System.out.println(Result.avgValue(repo.goodExpressions));
+		System.out.println(Result.avgValue(repo.negResponse));
+		System.out.println(Result.avgValue(repo.posResponse));
 		
-		ArrayList<Agent> pop = newPop(10, .2, .3, 1);
-		evolve(pop);
-		System.out.println(commitmentChange(pop));
-		/*
-		evolve(pop);
-		System.out.println(evolve(pop));
-		for(Agent a : pop){
-			System.out.println(a.agentReport());
-		}
-		*/
 	}
 }
 
