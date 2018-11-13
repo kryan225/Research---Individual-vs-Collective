@@ -220,13 +220,20 @@ public class Experiments {
 			sb.append("," + eExp);//number of evil expressions
 			sb.append('\n');
 			
-			result.addExpressions(i,expressions);			
-			result.addHarmonious(i, harmonious);
-			result.addDiffering(i, differing);
-			result.addPosResponse(i, posResponse);
-			result.addNegResponse(i, negResponse);
-			result.addGoodExpressions(i, gExp);
-			result.addEvilExpressions(i, eExp);
+
+			result.addTo(i, (double) (cs.get(0) + cs.get(1)), result.totalChanges);
+			result.addTo(i, (double) cs.get(0), result.changesToGood);
+			result.addTo(i, (double) cs.get(1), result.changesToBad);
+			result.addTo(i, commC, result.totalCommitmentChange);
+			result.addTo(i, (double) cs.get(2), result.totalGood);
+			result.addTo(i, (double) cs.get(3), result.totalBad);
+			result.addTo(i,(double) expressions, result.expressions);			
+			result.addTo(i,(double) harmonious, result.harmonious);
+			result.addTo(i,(double) differing, result.differing);
+			result.addTo(i,(double) posResponse, result.posResponse);
+			result.addTo(i,(double) negResponse, result.negResponse);
+			result.addTo(i,(double) gExp, result.goodExpressions);
+			result.addTo(i,(double) eExp, result.evilExpressions);
 			
 		}
 		System.out.println(details);
@@ -264,15 +271,20 @@ public class Experiments {
 		System.out.println();
 	}
 	
-	public static Result batchExperiment(Double evils, double cMin, double cMax) throws FileNotFoundException{
+	public static Result batchExperiment(Double evils, double cMin, double cMax, boolean save) throws FileNotFoundException{
 		Result r = new Result();
-		runExperiment(1000, evils, 100, cMin, cMax, false, r);
-		runExperiment(1000, evils, 100, cMin, cMax, false, r);
-		runExperiment(1000, evils, 100, cMin, cMax, false, r);
-		runExperiment(1000, evils, 100, cMin, cMax, false, r);
-		runExperiment(1000, evils, 100, cMin, cMax, false, r);
-		runExperiment(1000, evils, 100, cMin, cMax, false, r);
+		int pop = 1000;
+		int iter = 100;
+		runExperiment(pop, evils, iter, cMin, cMax, false, r);
+		runExperiment(pop, evils, iter, cMin, cMax, false, r);
+		runExperiment(pop, evils, iter, cMin, cMax, false, r);
+		runExperiment(pop, evils, iter, cMin, cMax, false, r);
+		runExperiment(pop, evils, iter, cMin, cMax, false, r);
+		runExperiment(pop, evils, iter, cMin, cMax, false, r);
 		
+		if(save){
+			r.printReport(pop, evils, iter, cMin, cMax);
+		}
 		
 		return r;
 		
@@ -281,8 +293,9 @@ public class Experiments {
 	
 	
 	public static void main(String []args) throws FileNotFoundException {
-		Result repo = batchExperiment(.3, .3, 1);
-		
+		Result repo = batchExperiment(.3, .3, 1, true);
+		repo.printReport(1000, .3, 100, .3, 1);
+		/*
 		System.out.println(repo.expressions.get(0));
 		System.out.println(Result.avgValue(repo.expressions));
 		System.out.println(Result.avgValue(repo.differing));
@@ -291,6 +304,7 @@ public class Experiments {
 		System.out.println(Result.avgValue(repo.goodExpressions));
 		System.out.println(Result.avgValue(repo.negResponse));
 		System.out.println(Result.avgValue(repo.posResponse));
+		*/
 		
 	}
 }
