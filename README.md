@@ -55,12 +55,12 @@ Interactions are the types of scenarios that can take place when two agents expr
 ```
 interact(Agent1, Agent2):
 		If Agent1’s expression equals Agent2’s expression:
-			Commitment rises for both agents
+			Positive Affective Response
 		Else:
-			If a random number is smaller than Agent1/Agent2’s commitment openness:
-				Move the corresponding commitment down
+			If a random number is smaller than the current Agent's commitment:
+				Negative Affective Response
 			Else:
-				Move the corresponding commitment up
+				Positive Affective Response
 ```
 
 
