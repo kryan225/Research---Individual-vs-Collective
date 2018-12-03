@@ -76,7 +76,7 @@ The update function takes in 5 parameters:
 | ```int partnerExpress``` | The expression that the agent's partner expressed. This is the expression that ```Agent a``` is reacting to. Can be -1 (evil), 0 (no expression/neutral), 1 (good) | 
 | ```int myExpress``` | The expression that the ```Agent a``` expressed for that round. Can be -1 (evil), 0 (no expression/neutral), 1 (good). |
 | ```int quality``` | This is the quality of the interaction with the partner agent. This will decide whether ```Agent a``` reacts positively or negatively to its partner. Can be -1 (negative interaction), 1 (positive interaction) |
-| ```int learningRate``` | This is rate at which the bias and commitment for ```Agent a``` is changed. The lower the learning rate the more the bias and commitment are changed per round. Our default value for learning rate is 10. | 
+
 
 ```Agent a```'s bias is changed according to the following formula:
 ```
