@@ -1,0 +1,237 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+%opening
+\title{Individual vs. Collective}
+\author{Ryan Kleinberg, James Lopez, Dr. Wayne Iba}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+	...
+\end{abstract}
+
+\section{Introduction}
+The purpose of this research was to observe how a minority character trait evolves over time within a population. We wanted to see how cultural norms would be effected by a minority character trait, which would be generally oppressed by the majority. A simple application would be racism in modern societies. These racist members are portraying a character trait that is widely perceived as unwanted and can drive other people to aggression, if provoked. We wanted to see how, or if, such a character trait could survive in preexisting possible hostile circumstances.
+\section{Methods}%add supsections
+We initialized a population made up of either good or evil agents. After every iteration, each agent would be paired randomly with another. At this point each agent would decide whether to express their dominate character trait, express nothing, or express their lesser character trait. This means that despite an agent being “good” it could still have the ability to express as evil. Depending on how an agent’s partner expressed, the bias that decides how evil/good the original agent was will be updated. Agents who expressed the same will always reinforce their bias toward what they just expressed. Agents who were in an interaction that involved differing expressions compare a random number with their commitment levels.
+Depending on where the random number is, the agent will either move their bias of expression toward their opposing partner or further away, decreasing or increasing their commitment levels correspondingly.
+
+\subsection{Agents}
+An agent is a representation of a person. We want to be able to have a population of people, or agents, that interact with each other. Each agent has two features: an expression bias, and a commitment bias
+
+\subsubsection{Expression Bias}
+The expression parameter on agents acts as how often or likely an agent is to express an undesirable trait. The bias is treated as a point on a scale from 0-1. If a random number between 0 and 1 is below the bias an agent will express a negative trait, while if it is above the bias it will express a positive trait. This allows 0.5 to act as a mediator between good and evil agents. The closer to 0.5, the more impartial the agent will be. 
+
+\subsubsection{Commitment}
+Commitment is a parameter on agents that portrays how committed an agent is to their expressive stance. Commitment controls how much an agent is affected from a negative interaction as well as helping determine what the agent will express.
+
+\subsection{An Iteration}
+In a single Iteration, an entire population of Agents is randomly shuffled. Then each agent will have an interaction with a partner. Next, the agent will respond to its partner according to what happened in the interaction. Interactions are further explained in a later section.
+
+\subsection{Expressions}
+Expressions are based off each agent's bias. The first thing that is done is a neutral zone is calculated for the agent. The neutral zone is calculated by the following function of bias and commitment:
+\\
+
+	Right border of neutral zone: 
+	$((1-Commitment)/3) * (1-Bias)$
+	
+	
+	Left border of neutral zone: $
+	((1-Commitment)/3) * (Bias)$\\
+
+
+This ensures a neutral zone takes a percentage, based off the commitment, from either side of the bias. The less committed an agent, the larger the neutral zone.
+
+After this, think of a scale from zero to one with a neutral zone surrounding the bias on the scale. A random number is generated between 0 and 1. Based off where the value is on the scale, an appropriate trait is expressed: Less than the neutral zone: -1 (Evil trait) In the neutral zone: 0 (No expression) Greater than the neutral zone: 1 (Good trait). \textit{Note: an agent with Bias of 0.5 and commitment of 0, has an equal chance of expressing good, evil, and nothing.}
+
+\subsection{Interactions}
+Interactions are the types of scenarios that can take place when two agents express to each other. For example, if there are two agents that are chosen to interact with each other, one can express an evil feature while the other can express a good feature. Below is a table of all expression scenarios.
+
+\centerline{\includegraphics[width=.35\linewidth]{scenarios.png}}
+\centerline{\includegraphics[width=1.2\linewidth]{Response.png}}
+
+	
+\textit{Note}: If both agents express the same magnitude (-1 and -1, 1 and 1) they will automatically have a positive response
+
+\textit{Note}: If both agents express opposing outcomes (-1 1, -1 0, 0 1) they each generate a random number between 0 1, and when compared to each agent's commitment, their separate responses to their neighbor will be determined:
+
+
+\subsection{Updates}
+
+
+The purpose of the updateAgent function is to update an agent's bias and commitment based off it's interaction with a partner. There are four parameters involved in updating an agent, and they are laid out in the following chart: 
+\\
+\centerline{\includegraphics[width=1.2\linewidth]{UpdateChart.png}}
+\\
+
+%Put in chart here
+%\begin{figure}
+%	\includegraphics{UpdatesChart.png} ** include eps	
+%\end{figure}
+
+Agent a's bias is changed according to the following formula:
+\begin{lstlisting}
+Bias = Bias - [(1-commitment)/10](Partner Expression)(Quality of interaction)
+\end{lstlisting}
+and the formula for updating Agent a's commitment is:
+\begin{lstlisting}
+Commitment = Commitment + [(1-Commitment)/10](Partner Expression)(My Expression)(quality of interaction)
+\end{lstlisting}
+Both the commitment and bias are fixed within the range of 0 to 1.
+
+\section{Experiments}
+\subsection{Hypotheses}
+I made multiple hypothesis concerning the different parameter changes in each agent: \\
+\textbf{Total agents changing their bias (moving over/under .5) per iteration in an experiment}: There will start out with a significant amount of changes over the bias. Then there will be a steady decrease in changes, and eventually all agents will solidify their bias standing as the experiment lasts longer
+\\
+\\
+\textbf{Agents changing their bias from 'evil' to 'good'}: We will see a higher percentage of changes as the initial evil population increases per experiment. This is due to the fact that there will more evil agents to turn over. In other words, there will be more changes as the diversity within the population increases
+\\
+\\
+\textbf{Overall changes in commitment and bias}: Every agent's commitment will end very close to 1, in other words every agent will be very fortified in their opinion. Every agent's bias will end very close to 1 or 0, this goes along with agents fortifying their ideologies as the experiment lasts longer. 
+\\
+\\
+\textbf{The total amount of expressions over the entire population}: As each agent solidifies its ideology, there will be an increasing number of expressions. Expressions over the entire population will increase as the experiment lasts longer.
+\\
+\\
+\textbf{The total number of harmonious interactions}: The total number of harmonious per interaction will increase as the majority population increases in number. 
+\\
+\\
+\textbf{'Good' vs 'Evil' population}: The majority population will always grow, and depending on preset parameters could have a chance at completely eradicating the minority. A large bump is expected in the majority population size, such that the minority size will often be halved. 
+\\
+\\
+\textbf{Number of differing interactions (when a 'good' and 'evil' expressions both appear in the same interaction)}: These differing interactions will decrease as the majority population increases in size.
+\\
+\\
+\textbf{Total number of 'Good' and 'Evil' expressions}: As the majority population, always will be good, increases so will the number of good expressions. As the number of evil agents decreases in the population, so too will the number of evil expressions
+\\
+\\
+\textbf{Total number of negative vs positive responses:} The number of positive responses will increase over time and the number of negative responses will decrease
+\\
+\\
+\textbf{What will happen when the minority has a higher starting commitment level:} With a minority that has a higher starting commitment, they will see an increase in their overall population numbers. The magnitude of the increase will be dependent on the starting population size of the minority, as in the larger the minority group within the starting population, that larger the minority take over at the end of the experiment. 
+
+
+
+\subsection{Experiments}
+Each experiment was set up to have a variable amount of agents in the population. The population would be initialized as a good/evil split. Next, the population would enter action cycles or iterations. In each iteration, every agent would pair up with another random agent in the population. Each agent would then express as good, evil, or not express based off the agent's expression bias and commitment. The agent would then react to its neighbor's expression. If the agent experiences an expression that is opposite to its bias it will choose whether to react positively or negatively based off its commitment level. If the agent chooses to react negatively it will solidify its current standing and strengthen its bias and commitment. If the agent chose to react positively to its opposite expressing neighbor, it would weaken its current standing by decreasing its bias and commitment. When an agent and its neighbor express the same characteristic, both will automatically react positively. When an agent's neighbor does not express, then there is no change in the agent's commitment or bias.
+
+\subsection{Settings}
+Every experiment run has five primary, controllable parameters:
+\subsubsection{Population Size}
+This is simply the size of the population of agents. This was normally set at 1000, which would give us a population of 1000 agents
+\subsubsection{Percent Evil}
+This sets what percentage of our population will be evil
+\subsubsection{Number of Iterations}
+This determines how many iterations the population will be subject to during the entire experiment. In other words it represents how many times agents would interact with another random agent within the population 
+\subsubsection{Commitment Min/Max}
+These parameters set the range of where every agent's commitment levels are to be initialized. These control the starting range of initialization for both good and evil agents.
+
+%remove pop size, add bias initialization
+
+
+\section{Results}
+%what insights did we get - hypothesis that were wrong, wat happened?
+%nuggets of golden insight
+%what did we find, did it confirm hypothesis?
+Results will be addressed according to their hypotheses
+
+
+\section{Analysis}
+
+%experiment section - hypothesis, experiments, settings,
+%Analysis - james work
+%future work/ideas{\large }
+
+\section{Future Work}
+There are a few things that I think could be an interesting way to expand on the model I have created. First, an implementation of social networking could produce interesting results. Agents would form networks as they have positive interactions. Each agent would have a high chance of drawing a "neighbor" from their network instead of finding a random agent outside their network. I would assume networks would all have the same expression bias and we would see good and evil networks form. \\
+A second implementation is having the agents produce offspring and have a life span. As agents died and pass on their ideologies we could truly see how long the 'evil' characteristic would resist being completely eliminated, if that is a possibility.
+Figure \ref{fig:good and bad changes} is a reference
+
+\newpage
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"good and bad changes"}
+	\caption{Total Good and Evil Changes by iteration}
+	\label{fig:good and bad changes}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"positive v negative response"}
+	\caption{Positive Responses vs. Negative Responses}
+	\label{fig:positivevnegativeresponse}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"Good expressions v Evil Expressions"}
+	\caption{Good and Evil Expressions Over Time}
+	\label{fig:good v evil expressions}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"Good pop vs bad pop"}
+	\caption{Good and Evil Population Sizes}
+	\label{fig:good v evil pop sizes}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"harmonious v differing interactions"}
+	\caption{Harmonious and Differing Interactions}
+	\label{fig:harmonious v differing}
+\end{figure} 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"Number of Expressions"}
+	\caption{Number of Expressions}
+	\label{fig:expressions}
+\end{figure} 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"Total changes by iterration"}
+	\caption{Total Bias Changes by Iteration}
+	\label{fig:changes by iteration}
+\end{figure} 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"Total commitment change"}
+	\caption{Cumulative Commitment Changes by Iteration}
+	\label{fig:commitment changes}
+\end{figure} 
+
+
+\end{document}
