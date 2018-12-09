@@ -130,13 +130,13 @@ I made multiple hypothesis concerning the different parameter changes in each ag
 
 
 
-\subsubsection{Total number of 'Good' and 'Evil' expressions} As the majority population, always will be good, increases so will the number of good expressions. As the number of evil agents decreases in the population, so too will the number of evil expressions
+\subsubsection{Total number of 'Good' and 'Evil' expressions} As the majority population increases so will the number of good expressions. As the number of evil agents decreases in the population, so too will the number of evil expressions.
 
 
-\subsubsection{Total number of negative vs positive responses} The number of positive responses will increase over time and the number of negative responses will decrease
+\subsubsection{Total number of negative vs positive responses} The number of positive responses will increase over time and the number of negative responses will decrease.
 
 
-\subsubsection{What will happen when the minority has a higher starting commitment level} With a minority that has a higher starting commitment, they will see an increase in their overall population numbers. The magnitude of the increase will be dependent on the starting population size of the minority, as in the larger the minority group within the starting population, that larger the minority take over at the end of the experiment. 
+\subsubsection{What will happen when the minority has a higher starting commitment level} With a minority that has a higher starting commitment, they will see an increase in their overall population numbers. The magnitude of the increase will be dependent on the starting population size of the minority. The larger the minority group within the starting population, the more growth that minority will see. 
 
 
 
@@ -189,16 +189,50 @@ Our hypothesis is confirmed when looking at figure \ref{fig:harmonious v differi
 
 
 
+%******************************************************************************
 \subsubsection{'Good' vs 'Evil' population} \underline{\textit{The majority population will always grow, and depending on preset parameters could have a chance at completely eradicating the minority. A large bump is expected in the majority population size, such that the minority size will often be halved. }}
+%******************************************************************************
+
+\subsubsection{Total number of 'Good' and 'Evil' expressions} 
+
+This hypothesis is dependent upon some factors of initialization. The majority population must have equal values for commitment initialization or have at least a 65\% majority to begin the experiment. If initialized with weaker commitment levels and a below 65\% starting majority, our hypothesis will not holdup.\\
+But we can see in figure \ref{fig:good v evil expressions} that our hypothesis is confirmed. The number of good expressions rises while evil expressions fall throughout the experiment.
 
 
-\subsubsection{Total number of 'Good' and 'Evil' expressions} As the majority population, always will be good, increases so will the number of good expressions. As the number of evil agents decreases in the population, so too will the number of evil expressions
+\subsubsection{Total number of negative vs positive responses} 
+
+Looking at figure \ref{fig:positivevnegativeresponse} we can see that our hypothesis is confirmed and positive responses increase while the negative  decreases. This is most likely due to the fact that in the beginning of the experiment there are more evil agents, giving more opportunity for a good and evil agent to have negative responses. As evil agents decrease there is a greater likelihood that two good agents can have a positive response. 
 
 
-\subsubsection{Total number of negative vs positive responses} The number of positive responses will increase over time and the number of negative responses will decrease
+\subsubsection{What will happen when the minority has a higher starting commitment level}
+
+Looking at figure \ref{fig:evil v evil} we can see different scenarios where the minority population has a higher range of starting commitment. Here the evil agents start out with 50\%-70\% of the starting population. The evil population is only able to keep their majority when initialized at or above 62\%, and the evils are not able to grow unless they are initialized at or above 68\%. 
+
+These results affirm our hypothesis that when a minority is initialized with a higher commitment level compared to the majority they can see significant growth.
 
 
-\subsubsection{What will happen when the minority has a higher starting commitment level} With a minority that has a higher starting commitment, they will see an increase in their overall population numbers. The magnitude of the increase will be dependent on the starting population size of the minority, as in the larger the minority group within the starting population, that larger the minority take over at the end of the experiment. 
+\subsection{Puzzling Trend}
+In an attempt to gain insight on how much differing commitment levels effected outcomes an environment was set up to reflect four different scenarios: Weakly and Strongly initialized commitments for good agents vs. weakly and strongly initialized commitments for evil agents. 
+\\
+The conditions for this experiment were that the range for weakly initialized commitments was 0.0-0.5 and the range for strong commitments was 0.5-1.0. Every time the evils were initialized at 30\% of the population, which would be 300 evil agents. The total population was 1,000 agents and each experiment was run with 200 iterations. We can see the results in Chart \ref{confusing}, which are averaged over 50 experiments. 
+\\
+The puzzling trend that shows itself here is that the strong majority of goods fails to eliminate as many weak evil agents when compared to the weak majority of goods. This experiment was run multiple times to double check these results and in each case the weakly initialized good majority converted more evil agents than the strongly initialized good majority. Even in the case of strong against strong there is an insignificant gap between how many evil agents remain. We cannot come up with a plausible explanation for this phenomena. 
+
+\begin{table}
+	\centering
+	\begin{tabular}{| c | c  c | } 	
+		\hline
+		 & Weak Evil & Strong Evil \\ [0.5ex] 
+		\hline\hline
+		Weak Good & 74 & 283 \\ 		
+		\hline
+		Strong Good & 78 & 281 \\ [1ex] 
+		\hline		
+	\end{tabular}
+	\caption{These numbers reflect how many evil agents are present at the end of the experiment. There started out with 300 evil agents present. Each result is according to the scenario its row and column titles suggest, for example when there was a weakly initialized evil population with a weakly initialized good population the result was 74 remaining evil agents.}
+	\label{confusing}
+\end{table}
+
 
 
 
@@ -217,7 +251,12 @@ These parameters set the range of where every agent's commitment levels are to b
 
 
 \section{Analysis}
-
+\subsection{Expected Value}
+$(1-Nr) - Nl$
+\subsection{Probability of Expressing}
+$(1-Nr) + Nl \Rightarrow 1 - (Nr - Nl)$
+\subsection{Probability of types of effective response}
+$P(E(a1_{Good})) * P(E(a2_{Evil})) * (1 - 2Commitment)$
 %experiment section - hypothesis, experiments, settings,
 %Analysis - james work
 %future work/ideas{\large }
@@ -284,6 +323,14 @@ Figure \ref{fig:good and bad changes} is a reference
 	\caption{Cumulative Commitment Changes by Iteration}
 	\label{fig:commitment changes}
 \end{figure} 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{"Starting, Finishing evil percentage"}
+	\caption{Beginning v. Ending Evil Population Percentage. Generated with varying starting evil percentages. Initial evil commitment levels were generated between 0.0 and 0.5, while initial good commitment levels were generated between 0.5 and 1.0. This gives the good agents a commitment advantage but are still in the minority.}
+	\label{fig:evil v evil}
+	
+\end{figure}
 
 
 \end{document}
