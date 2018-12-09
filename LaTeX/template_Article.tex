@@ -251,12 +251,21 @@ These parameters set the range of where every agent's commitment levels are to b
 
 
 \section{Analysis}
+The following subsections are mathematical representations of various aspects of our experimentation. They have been tested and properly reflect what could happen in a simulation.
 \subsection{Expected Value}
-$(1-Nr) - Nl$
+\begin{center}
+	 $(1-Nr) - Nl$
+\end{center}
+
+This equation represents what value we can expect a specific agent to express. $Nr$ and $Nl$ represent the right and left side of the agent's neutral zone (Neutral zones are addressed in section 2.3). The output should be on a range of -1.0 to 1.0, -1 representing evil, 0 representing neutral or no expression, 1 representing good.
 \subsection{Probability of Expressing}
-$(1-Nr) + Nl \Rightarrow 1 - (Nr - Nl)$
-\subsection{Probability of types of effective response}
-$P(E(a1_{Good})) * P(E(a2_{Evil})) * (1 - 2Commitment)$
+\begin{center}
+	$(1-Nr) + Nl \Rightarrow 1 - (Nr - Nl)$
+\end{center}
+This equation returns the probability that an agent will express. If an agent expresses 0, it represents them not expressing anything of significance toward their partner. The lowest probability of expression for an agent will be 66\% due to the nature of how the neutral zone is calculated. 
+
+
+
 %experiment section - hypothesis, experiments, settings,
 %Analysis - james work
 %future work/ideas{\large }
